@@ -1,0 +1,1 @@
+$("#watch8-secondary-actions").append("<input type='button' name='button' id='button' value='Button'>");
