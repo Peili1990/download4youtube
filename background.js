@@ -11,4 +11,7 @@ chrome.tabs.onReplaced.addListener(function(tabId, changeInfo, tab) {
 })
 
 function inject() {
+	if(true) {
+		chrome.tabs.executeScript(null, {file: "inject.js"});
+	}
 }

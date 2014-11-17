@@ -26,5 +26,5 @@
 		"16":"icon_16.png",
 		"64":"icon.png"
 	},
-	"web_accessible_resources": ["download.png"， "download.js"]
+	"web_accessible_resources": ["download.png"]
 }
