@@ -1,3 +1,46 @@
+console.log("inject");
+
+while(document.readyState != "complete") {
+    console.log("waiting...");
+}
+
+// get the button bar
+$buttons = $("#watch8-secondary-actions");
+
+// if download button not exists
+if($("#downloadbutton").length == 0) {
+    console.log("inject start");
+    // add the button
+    var path = chrome.extension.getURL("download.png");
+    $buttons.append("<button id='downloadbutton' class='yt-uix-button yt-uix-button-size-default yt-uix-button-opacity yt-uix-button-has-icon yt-uix-videoactionmenu-button addto-button yt-uix-tooltip' type='button' onclick=';return false;' title='download'><span class='yt-uix-button-icon-wrapper'><img src='" +  path + "'></span><span class='yt-uix-button-content'>download</span></button>");
+    $("#downloadbutton").click(function(e) {
+                               downloadFunction();
+                               });
+    
+    // add the div
+    var div = "<div id='downloadDiv' width='300px' height='200px'>demo</div>";
+    $("body").append(div);
+    
+    // set the coordinate
+    var tops = $("#downloadbutton").offset().top + $("#downloadbutton").height();
+    var lefts = $("#downloadbutton").offset().left + 10;
+    
+    $("#downloadDiv").css({
+                          "top": tops + "px",
+                          "left": lefts + "px"
+                          });
+    
+    $("#downloadDiv").hide();
+    
+    $(document).bind("click", function(e) {
+                     var target  = $(e.target);
+                     if(target.closest("#downloadbutton").length == 0 && target.closest("#downloadDiv").length == 0){
+                     $("#downloadDiv").hide();
+                     }
+                     })
+}
+console.log("inject end");
+
 // convert a char (0~9, A~Z, a~z) to decimalism integer
 function strToInt(c) {
     var num = c.charCodeAt(0);
@@ -111,37 +154,4 @@ function downloadFunction() {
 	$("#downloadDiv").show();
 }
 
-// get the button bar
-$buttons = $("#watch8-secondary-actions");
 
-// if download button not exists
-if($buttons != "undefined" && $("#downloadbutton").length == 0) {
-	// add the button
-    var path = chrome.extension.getURL("download.png");
-    $buttons.append("<button id='downloadbutton' class='yt-uix-button yt-uix-button-size-default yt-uix-button-opacity yt-uix-button-has-icon yt-uix-videoactionmenu-button addto-button yt-uix-tooltip' type='button' onclick=';return false;' title='download'><span class='yt-uix-button-icon-wrapper'><img src='" +  path + "'></span><span class='yt-uix-button-content'>download</span></button>");
-    $("#downloadbutton").click(function(e) {
-		downloadFunction();
-	});
-	
-	// add the div
-	var div = "<div id='downloadDiv' width='300px' height='200px'>demo</div>";
-	$("body").append(div);
-	
-	// set the coordinate
-	var tops = $("#downloadbutton").offset().top + $("#downloadbutton").height();
-	var lefts = $("#downloadbutton").offset().left + 10;
-	
-	$("#downloadDiv").css({
-     	"top": tops + "px", 
-      	"left": lefts + "px" 
-    });
-	
-	$("#downloadDiv").hide();
-	
-	$(document).bind("click", function(e) {
-		var target  = $(e.target);
-		if(target.closest("#downloadbutton").length == 0 && target.closest("#downloadDiv").length == 0){
-			$("#downloadDiv").hide();
-		}
-	})
-}

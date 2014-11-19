@@ -18,7 +18,8 @@
     {
       "matches": ["https://www.youtube.com/*", "http://www.youtube.com/*"],
 	  "css": ["style.css"],
-	  "js": ["jquery.min.js"]
+	  "js": ["jquery.min.js"],
+      "run_at": "document_end"
     }
   	],
 	"manifest_version": 2,

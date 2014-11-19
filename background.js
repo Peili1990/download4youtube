@@ -1,5 +1,9 @@
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-	inject();
+    if(changeInfo && changeInfo.status == "complete"){
+        chrome.tabs.executeScript(tabId, {file: "jquery.min.js"}, function(){
+            inject();
+        });
+    }
 });
 
 chrome.tabs.onCreated.addListener(function(tabId, changeInfo, tab) {
