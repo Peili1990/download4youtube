@@ -1,3 +1,4 @@
+// convert a char (0~9, A~Z, a~z) to decimalism integer
 function strToInt(c) {
     var num = c.charCodeAt(0);
     if(num >= 48 && num <= 57) {
@@ -14,6 +15,7 @@ function strToInt(c) {
     }
 }
 
+// convert a string of hexadecimal number to decimalism integer
 function numberDecode(str) {
     var n = 0;
     for(i = 0; i < str.length; i++) {
@@ -23,6 +25,7 @@ function numberDecode(str) {
     return String.fromCharCode(n);
 }
 
+// decode, change /uxxxx and %xx to chars
 function decode(url) {
     var target = "";
     for(var i = 0; i < url.length; i++) {
@@ -33,7 +36,6 @@ function decode(url) {
                 t += url[++ i];
                 t += url[++ i];
                 t += url[++ i];
-                
                 target += numberDecode(t);
             }
             else {
@@ -44,17 +46,16 @@ function decode(url) {
             var t = "";
             t += url[++ i];
             t += url[++ i];
-            
             target += numberDecode(t);
         }
         else {
             target += url[i];
         }
     }
-    
     return target;
 }
 
+// build download url from the code get by decode
 function buildURL(code) {
     var url = "";
     var itagFlag = false;
@@ -88,6 +89,7 @@ function buildURL(code) {
     return info;
 }
 
+// get all download urls
 function getURLs() {
     var text = $("#player-api").nextAll("script").nextAll("script").html();
     var re = new RegExp("\"url_encoded_fmt_stream_map\": \"[^\"]*\"");
@@ -102,14 +104,44 @@ function getURLs() {
     }
 }
 
+// called when download button is clicked
 function downloadFunction() {
     getURLs();
+	console.log("show");
+	$("#downloadDiv").show();
 }
+
+// get the button bar
 $buttons = $("#watch8-secondary-actions");
-if($buttons != "undefined") {
+
+// if download button not exists
+if($buttons != "undefined" && $("#downloadbutton").length == 0) {
+	// add the button
     var path = chrome.extension.getURL("download.png");
     $buttons.append("<button id='downloadbutton' class='yt-uix-button yt-uix-button-size-default yt-uix-button-opacity yt-uix-button-has-icon yt-uix-videoactionmenu-button addto-button yt-uix-tooltip' type='button' onclick=';return false;' title='download'><span class='yt-uix-button-icon-wrapper'><img src='" +  path + "'></span><span class='yt-uix-button-content'>download</span></button>");
     $("#downloadbutton").click(function(e) {
-                               downloadFunction()
-                               });
+		downloadFunction();
+	});
+	
+	// add the div
+	var div = "<div id='downloadDiv' width='300px' height='200px'>demo</div>";
+	$("body").append(div);
+	
+	// set the coordinate
+	var tops = $("#downloadbutton").offset().top + $("#downloadbutton").height();
+	var lefts = $("#downloadbutton").offset().left + 10;
+	
+	$("#downloadDiv").css({
+     	"top": tops + "px", 
+      	"left": lefts + "px" 
+    });
+	
+	$("#downloadDiv").hide();
+	
+	$(document).bind("click", function(e) {
+		var target  = $(e.target);
+		if(target.closest("#downloadbutton").length == 0 && target.closest("#downloadDiv").length == 0){
+			$("#downloadDiv").hide();
+		}
+	})
 }

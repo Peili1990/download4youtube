@@ -1,17 +1,11 @@
-#mytooltip{
+#downloadDiv{
   position:absolute;
-  border:1px solid #333;
-  background:#7ec4ff;
+  border:1px solid #d3d3d3;
+  background:#ffffff;
   padding:10px;
-  color:#333;
+  color:#000000;
   display:none;
   z-index:99999;
-  box-shadow: 10px 10px 5px #c1c1c1;
+  box-shadow: 2px 2px 2px #d3d3d3;
   word-wrap:break-word;
-}
-
-#dividing{
-	border:0px;
-	background-color:#aeaeae;
-	height:2px;
 }
