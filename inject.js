@@ -15,10 +15,11 @@ if($("#downloadbutton").length == 0) {
     $buttons.append("<button id='downloadbutton' class='yt-uix-button yt-uix-button-size-default yt-uix-button-opacity yt-uix-button-has-icon yt-uix-videoactionmenu-button addto-button yt-uix-tooltip' type='button' onclick=';return false;' title='download'><span class='yt-uix-button-icon-wrapper'><img src='" +  path + "'></span><span class='yt-uix-button-content'>download</span></button>");
     $("#downloadbutton").click(function(e) {
                                downloadFunction();
+							   return false;
                                });
     
     // add the div
-    var div = "<div id='downloadDiv' width='300px' height='200px'>demo</div>";
+    var div = "<div id='downloadDiv' class='yt-uix-menu-content yt-ui-menu-content yt-uix-menu-content-hidden' role='menu'></div>";
     $("body").append(div);
     
     // set the coordinate
@@ -141,17 +142,30 @@ function getURLs() {
     text = text.replace("\"", "");
     
     urls = text.split(",");
+	var urlArray = [];
     for(var i = 0; i < urls.length; i ++) {
         var info = buildURL(decode(urls[i]));
+		urlArray.push(info);
         console.log(info[0] + " " + info[1] + ": " + info[2]);
     }
+	return urlArray;
 }
 
 // called when download button is clicked
 function downloadFunction() {
-    getURLs();
-	console.log("show");
+    var urlArray = getURLs();
+	
+	//in div
+	$ul = '<ul id="download-list"></ul>';
+	$("#downloadDiv").append($ul);
+	for(var i = 0; i < urlArray.length; i++) {
+		$("#download-list").append('<li><button type="button" class="yt-ui-menu-item has-icon yt-uix-menu-close-on-select action-panel-trigger" > <span class="yt-ui-menu-item-icon yt-uix-button-icon-action-panel-report yt-sprite"></span><span class="yt-ui-menu-item-label">' + urlArray[i][1] + '</span></button> </li>');
+	}
+	
+	
+	
 	$("#downloadDiv").show();
+	
 }
 
 
