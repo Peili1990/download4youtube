@@ -101,6 +101,20 @@ function decode(url) {
     return target;
 }
 
+function encode(title) {
+	var encoded = "";
+	for(var i = 0; i < title.length; i ++) {
+		var num = title.charCodeAt(i);
+		if((num >= 48 && num <= 57) || (num >=97 && num <= 102) || (num >= 65 && num <= 70)) {
+			encoded +=title[i];
+		}
+		else {
+			encoded += ("%" + (num).toString(16));
+		}
+	}
+	return encoded;
+}
+
 // build download url from the code get by decode
 function buildURL(code) {
     var url = "";
@@ -129,7 +143,7 @@ function buildURL(code) {
             type = parts[1].split(";")[0];
         }
     }
-    url += "title=test";
+    url += ("title=" + encode($("title").text().replace(" - YouTube", "")));
     
     info = [type, quality, url];
     return info;
@@ -163,14 +177,19 @@ function downloadFunction() {
 		//in div
 		$ul = '<ul id="download-list"></ul>';
 		$("#downloadDiv").append($ul);
+		
+		var infoArray = new Array();
 		for(var i = 0; i < urlArray.length; i++) {
-			$("#download-list").append('<li><button id="download-link-' + i + '" type="button" class="yt-ui-menu-item has-icon yt-uix-menu-close-on-select action-panel-trigger"> <span class="yt-ui-menu-item-icon yt-uix-button-icon-action-panel-report yt-sprite"></span><span class="yt-ui-menu-item-label">' + urlArray[i][1] + '</span></button> </li>');
+			if(!infoArray[urlArray[i][1]]) {
+				infoArray[urlArray[i][1]] = true;
+				$("#download-list").append('<li><button id="download-link-' + i + '" type="button" class="yt-ui-menu-item has-icon yt-uix-menu-close-on-select action-panel-trigger"> <span class="yt-ui-menu-item-icon yt-uix-button-icon-action-panel-report yt-sprite"></span><span class="yt-ui-menu-item-label">' + urlArray[i][1] + '</span></button> </li>');
 		
-			var urllink = urlArray[i][2];
+				var urllink = urlArray[i][2];
 		
-			$(("#download-link-" + i)).click(function() {
-				window.open(urllink, '_blank');
-			});
+				$(("#download-link-" + i)).click(function() {
+					window.open(urllink, '_blank');
+				});
+			}
 		}
 	
 		$(".yt-uix-menu-trigger").removeClass("yt-uix-menu-trigger-selected").children().removeClass("yt-uix-button-toggled").children().removeClass("yt-uix-button-toggled");
@@ -181,5 +200,7 @@ function downloadFunction() {
 	else {
 		$("#downloadDiv").hide();
 	}
+	
+	console.log($("title").text().replace(" - YouTube", ""));
 }
 
