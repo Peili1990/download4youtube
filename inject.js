@@ -1,9 +1,5 @@
 console.log("inject");
 
-while(document.readyState != "complete") {
-    console.log("waiting...");
-}
-
 // get the button bar
 $buttons = $("#watch8-secondary-actions");
 
@@ -35,6 +31,7 @@ if($("#downloadbutton").length == 0) {
     
     $(document).bind("click", function(e) {
                      var target  = $(e.target);
+					 console.log(target);
                      if(target.closest("#downloadbutton").length == 0 && target.closest("#downloadDiv").length == 0){
 						$("#downloadbutton").parent().removeClass("yt-uix-menu-trigger-selected");
 						$("#downloadbutton").removeClass("yt-uix-button-toggled");
@@ -158,29 +155,31 @@ function getURLs() {
 
 // called when download button is clicked
 function downloadFunction() {
-    var urlArray = getURLs();
+	if($("#downloadDiv").is(":hidden")) {
+    	var urlArray = getURLs();
 	
-	$("#download-list").remove();
+		$("#download-list").remove();
 
-	//in div
-	$ul = '<ul id="download-list"></ul>';
-	$("#downloadDiv").append($ul);
-	for(var i = 0; i < urlArray.length; i++) {
-		$("#download-list").append('<li><button id="download-link-' + i + '" type="button" class="yt-ui-menu-item has-icon yt-uix-menu-close-on-select action-panel-trigger"> <span class="yt-ui-menu-item-icon yt-uix-button-icon-action-panel-report yt-sprite"></span><span class="yt-ui-menu-item-label">' + urlArray[i][1] + '</span></button> </li>');
+		//in div
+		$ul = '<ul id="download-list"></ul>';
+		$("#downloadDiv").append($ul);
+		for(var i = 0; i < urlArray.length; i++) {
+			$("#download-list").append('<li><button id="download-link-' + i + '" type="button" class="yt-ui-menu-item has-icon yt-uix-menu-close-on-select action-panel-trigger"> <span class="yt-ui-menu-item-icon yt-uix-button-icon-action-panel-report yt-sprite"></span><span class="yt-ui-menu-item-label">' + urlArray[i][1] + '</span></button> </li>');
 		
-		var urllink = urlArray[i][2];
+			var urllink = urlArray[i][2];
 		
-		$(("#download-link-" + i)).click(function() {
-			console.log(urllink + "<<<<<<<<<<<<<<<<<<");
-			window.open(urllink, '_blank');
-		});
+			$(("#download-link-" + i)).click(function() {
+				window.open(urllink, '_blank');
+			});
+		}
+	
+		$(".yt-uix-menu-trigger").removeClass("yt-uix-menu-trigger-selected").children().removeClass("yt-uix-button-toggled").children().removeClass("yt-uix-button-toggled");
+		$("#downloadbutton").parent().addClass("yt-uix-menu-trigger-selected");
+		$("#downloadbutton").addClass("yt-uix-button-toggled");
+		$("#downloadDiv").show();
 	}
-	
-	
-	$(".yt-uix-menu-trigger").removeClass("yt-uix-menu-trigger-selected").children().removeClass("yt-uix-button-toggled").children().removeClass("yt-uix-button-toggled");
-	$("#downloadbutton").parent().addClass("yt-uix-menu-trigger-selected");
-	$("#downloadbutton").addClass("yt-uix-button-toggled");
-	$("#downloadDiv").show();
-	
+	else {
+		$("#downloadDiv").hide();
+	}
 }
 
