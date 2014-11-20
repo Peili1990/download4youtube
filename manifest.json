@@ -3,7 +3,7 @@
 	"description": "This extension helps users download vedio from youtube with one single click.",
 	"version": "1.0",
 	"permissions": [
-		"tabs", "https://www.youtube.com/*", "http://www.youtube.com/*", "storage"
+		"tabs", "https://www.youtube.com/*", "http://www.youtube.com/*", "storage", "downloads"
 	],
 	"background": {
 		"scripts": ["background.js"],

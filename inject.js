@@ -12,7 +12,7 @@ if($("#downloadbutton").length == 0) {
     console.log("inject start");
     // add the button
     var path = chrome.extension.getURL("download.png");
-    $buttons.append("<button id='downloadbutton' class='yt-uix-button yt-uix-button-size-default yt-uix-button-opacity yt-uix-button-has-icon yt-uix-videoactionmenu-button addto-button yt-uix-tooltip' type='button' onclick=';return false;' title='download'><span class='yt-uix-button-icon-wrapper'><img src='" +  path + "'></span><span class='yt-uix-button-content'>download</span></button>");
+    $buttons.append("<div class='yt-uix-menu'><div class='yt-uix-menu-trigger'><button id='downloadbutton' class='yt-uix-button yt-uix-button-size-default yt-uix-button-opacity yt-uix-button-has-icon yt-uix-videoactionmenu-button yt-uix-tooltip' type='button' onclick=';return false;' title='download'><span class='yt-uix-button-icon-wrapper'><img src='" +  path + "'></span><span class='yt-uix-button-content'>download</span></button></div></div>");
     $("#downloadbutton").click(function(e) {
                                downloadFunction();
 							   return false;
@@ -36,21 +36,26 @@ if($("#downloadbutton").length == 0) {
     $(document).bind("click", function(e) {
                      var target  = $(e.target);
                      if(target.closest("#downloadbutton").length == 0 && target.closest("#downloadDiv").length == 0){
-                     $("#downloadDiv").hide();
+						$("#downloadbutton").parent().removeClass("yt-uix-menu-trigger-selected");
+						$("#downloadbutton").removeClass("yt-uix-button-toggled");
+                     	$("#downloadDiv").hide();
                      }
-                     })
+     });
 }
 console.log("inject end");
 
 // convert a char (0~9, A~Z, a~z) to decimalism integer
 function strToInt(c) {
     var num = c.charCodeAt(0);
+	// if the char c is between [0-9]
     if(num >= 48 && num <= 57) {
         return num - 48;
     }
+	// if the char c is between [a-z]
     else if(num >=97 && num <= 102){
         return 10 + num - 97;
     }
+	// if the char c is between [A-Z]
     else if(num >= 65 && num <= 70){
         return 10 + num -65;
     }
@@ -155,17 +160,27 @@ function getURLs() {
 function downloadFunction() {
     var urlArray = getURLs();
 	
+	$("#download-list").remove();
+
 	//in div
 	$ul = '<ul id="download-list"></ul>';
 	$("#downloadDiv").append($ul);
 	for(var i = 0; i < urlArray.length; i++) {
-		$("#download-list").append('<li><button type="button" class="yt-ui-menu-item has-icon yt-uix-menu-close-on-select action-panel-trigger" > <span class="yt-ui-menu-item-icon yt-uix-button-icon-action-panel-report yt-sprite"></span><span class="yt-ui-menu-item-label">' + urlArray[i][1] + '</span></button> </li>');
+		$("#download-list").append('<li><button id="download-link-' + i + '" type="button" class="yt-ui-menu-item has-icon yt-uix-menu-close-on-select action-panel-trigger"> <span class="yt-ui-menu-item-icon yt-uix-button-icon-action-panel-report yt-sprite"></span><span class="yt-ui-menu-item-label">' + urlArray[i][1] + '</span></button> </li>');
+		
+		var urllink = urlArray[i][2];
+		
+		$(("#download-link-" + i)).click(function() {
+			console.log(urllink + "<<<<<<<<<<<<<<<<<<");
+			window.open(urllink, '_blank');
+		});
 	}
 	
 	
-	
+	$(".yt-uix-menu-trigger").removeClass("yt-uix-menu-trigger-selected").children().removeClass("yt-uix-button-toggled").children().removeClass("yt-uix-button-toggled");
+	$("#downloadbutton").parent().addClass("yt-uix-menu-trigger-selected");
+	$("#downloadbutton").addClass("yt-uix-button-toggled");
 	$("#downloadDiv").show();
 	
 }
-
 
