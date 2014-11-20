@@ -8,7 +8,7 @@ if($("#downloadbutton").length == 0) {
     console.log("inject start");
     // add the button
     var path = chrome.extension.getURL("download.png");
-    $buttons.append("<div class='yt-uix-menu'><div class='yt-uix-menu-trigger'><button id='downloadbutton' class='yt-uix-button yt-uix-button-size-default yt-uix-button-opacity yt-uix-button-has-icon yt-uix-videoactionmenu-button yt-uix-tooltip' type='button' onclick=';return false;' title='download'><span class='yt-uix-button-icon-wrapper'><img src='" +  path + "'></span><span class='yt-uix-button-content'>download</span></button></div></div>");
+    $buttons.append("<div class='yt-uix-menu'><div class='yt-uix-menu-trigger'><button id='downloadbutton' class='yt-uix-button yt-uix-button-size-default yt-uix-button-opacity yt-uix-button-has-icon yt-uix-videoactionmenu-button yt-uix-tooltip' type='button' onclick=';return false;' title='download'><span class='yt-uix-button-icon-wrapper'><img src='" +  path + "'></span><span class='yt-uix-button-content'>Download</span></button></div></div>");
     $("#downloadbutton").click(function(e) {
                                downloadFunction();
 							   return false;
