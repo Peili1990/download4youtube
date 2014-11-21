@@ -186,8 +186,8 @@ function downloadFunction() {
 		
 				var urllink = urlArray[i][2];
 		
-				$(("#download-link-" + i)).click(function() {
-					window.open(urllink, '_blank');
+				$(("#download-link-" + i)).bind( "click", {url: urllink}, function(e) {
+					window.open(e.data.url, '_blank');
 				});
 			}
 		}
