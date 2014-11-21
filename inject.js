@@ -8,7 +8,7 @@ if($("#downloadbutton").length == 0) {
     console.log("inject start");
     // add the button
     var path = chrome.extension.getURL("download.png");
-    $buttons.append("<div class='yt-uix-menu'><div class='yt-uix-menu-trigger'><button id='downloadbutton' class='yt-uix-button yt-uix-button-size-default yt-uix-button-opacity yt-uix-button-has-icon yt-uix-videoactionmenu-button yt-uix-tooltip' type='button' onclick=';return false;' title='download'><span class='yt-uix-button-icon-wrapper'><img src='" +  path + "'></span><span class='yt-uix-button-content'>Download</span></button></div></div>");
+    $buttons.append("<div class='yt-uix-menu'><div class='yt-uix-menu-trigger'><button id='downloadbutton' class='yt-uix-button yt-uix-button-size-default yt-uix-button-opacity yt-uix-button-has-icon yt-uix-videoactionmenu-button yt-uix-tooltip' type='button' onclick=';return false;' title='Download video'><span class='yt-uix-button-icon-wrapper'><img src='" +  path + "'></span><span class='yt-uix-button-content'>Download</span></button></div></div>");
     $("#downloadbutton").click(function(e) {
                                downloadFunction();
 							   return false;
@@ -182,7 +182,7 @@ function downloadFunction() {
 		for(var i = 0; i < urlArray.length; i++) {
 			if(!infoArray[urlArray[i][1]]) {
 				infoArray[urlArray[i][1]] = true;
-				$("#download-list").append('<li><button id="download-link-' + i + '" type="button" class="yt-ui-menu-item has-icon yt-uix-menu-close-on-select action-panel-trigger"> <span class="yt-ui-menu-item-icon yt-uix-button-icon-action-panel-report yt-sprite"></span><span class="yt-ui-menu-item-label">' + urlArray[i][1] + '</span></button> </li>');
+				$("#download-list").append('<li><button id="download-link-' + i + '" type="button" class="yt-ui-menu-item has-icon yt-uix-menu-close-on-select action-panel-trigger"> <span class="yt-ui-menu-item-icon yt-uix-button-icon-action-panel-report yt-sprite"></span><span class="yt-ui-menu-item-label">' + urlArray[i][1].capitalize() + '</span></button> </li>');
 		
 				var urllink = urlArray[i][2];
 		
@@ -203,4 +203,9 @@ function downloadFunction() {
 	
 	console.log($("title").text().replace(" - YouTube", ""));
 }
+
+String.prototype.capitalize = function(){
+    return this.replace( /(^|\s)([a-z])/g , function(m,p1,p2){ return p1+p2.toUpperCase();
+    } );
+};
 
