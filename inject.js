@@ -200,6 +200,10 @@ function downloadFunction() {
 	else {
 		$("#downloadDiv").hide();
 	}
+    $temp=$("#aria-menu-id-3");
+    $(".yt-uix-menu")[0].append($temp);
+    $("#aria-menu-id-3").remove();
+    $(".yt-uix-menu-mask").remove();
 	
 	console.log($("title").text().replace(" - YouTube", ""));
 }
