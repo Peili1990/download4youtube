@@ -188,6 +188,7 @@ function downloadFunction() {
 		
 				$(("#download-link-" + i)).bind( "click", {url: urllink}, function(e) {
 					window.open(e.data.url, '_blank');
+					$("#downloadDiv").hide();
 				});
 			}
 		}
