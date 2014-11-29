@@ -153,23 +153,23 @@ function buildURL(code) {
 // get all download urls
 function getURLs() {
     var text = null;
-	var title = "1";
-	var t = "2";
 	while(!text) {
 	
 		text = $("#player-api").nextAll("script").nextAll("script").html();
 	
    		var re = new RegExp("\"title\": \"[^\"]*\"");
-		t = re.exec(text) + "";
+		var t = re.exec(text) + "";
 		t = t.replace("\"title\": \"", "");
     	t = t.replace("\"", "");
+		t = decode(t);
 	
 	
-		title = $("title").text().replace(" - YouTube", "");
+		var title = $("title").text().replace(" - YouTube", "");
 		
 		re = new RegExp("\"url_encoded_fmt_stream_map\": \"[^\"]*\"");
     	text = re.exec(text) + "";
 		if(text == "null" || title != t) {
+			//console.log(title + "-------" + t);
 			location.reload();
 		}
 	}
@@ -182,7 +182,13 @@ function getURLs() {
 	var urlArray = [];
     for(var i = 0; i < urls.length; i ++) {
         var info = buildURL(decode(urls[i]));
-		urlArray.push(info);
+		if(info[2].indexOf("signature") > -1) {
+			urlArray.push(info);
+		}
+		else {
+			urlArray = null;
+			break;
+		}
         console.log(info[0] + " " + info[1] + ": " + info[2]);
     }
 	return urlArray;
@@ -200,6 +206,10 @@ function downloadFunction() {
 		$("#downloadDiv").append($ul);
 		
 		var infoArray = new Array();
+		if(!urlArray) {
+			$("#download-list").append('<li><button type="button" class="yt-ui-menu-item has-icon yt-uix-menu-close-on-select action-panel-trigger"> <span class="yt-ui-menu-item-icon yt-uix-button-icon-action-panel-report yt-sprite"></span><span class="yt-ui-menu-item-label">Get Signature Failed</span></button> </li>')
+		}
+		else {
 		for(var i = 0; i < urlArray.length; i++) {
 			if(!infoArray[urlArray[i][1]]) {
 				infoArray[urlArray[i][1]] = true;
@@ -212,6 +222,7 @@ function downloadFunction() {
 					$("#downloadDiv").hide();
 				});
 			}
+		}
 		}
 	
 		$(".yt-uix-menu-trigger").removeClass("yt-uix-menu-trigger-selected").children().removeClass("yt-uix-button-toggled").children().removeClass("yt-uix-button-toggled");
