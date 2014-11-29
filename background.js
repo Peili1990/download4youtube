@@ -15,7 +15,15 @@ chrome.tabs.onReplaced.addListener(function(tabId, changeInfo, tab) {
 })
 
 function inject() {
-	if(true) {
-		chrome.tabs.executeScript(null, {file: "inject.js"});
-	}
+	chrome.tabs.getSelected(null, function(tab){
+		if(tab.url.startsWith('https://www.youtube.com/watch?v=')) {
+			chrome.tabs.executeScript(null, {file: "inject.js"});
+		}
+	});
+}
+
+if (typeof String.prototype.startsWith != 'function') {
+  String.prototype.startsWith = function (str){
+    return this.indexOf(str) == 0;
+  };
 }

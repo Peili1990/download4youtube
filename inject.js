@@ -31,7 +31,6 @@ if($("#downloadbutton").length == 0) {
     
     $(document).bind("click", function(e) {
                      var target  = $(e.target);
-					 console.log(target);
                      if(target.closest("#downloadbutton").length == 0 && target.closest("#downloadDiv").length == 0){
 						$("#downloadbutton").parent().removeClass("yt-uix-menu-trigger-selected");
 						$("#downloadbutton").removeClass("yt-uix-button-toggled");
@@ -40,6 +39,8 @@ if($("#downloadbutton").length == 0) {
      });
 }
 console.log("inject end");
+
+var urlArray = getURLs();
 
 // convert a char (0~9, A~Z, a~z) to decimalism integer
 function strToInt(c) {
@@ -151,9 +152,29 @@ function buildURL(code) {
 
 // get all download urls
 function getURLs() {
-    var text = $("#player-api").nextAll("script").nextAll("script").html();
-    var re = new RegExp("\"url_encoded_fmt_stream_map\": \"[^\"]*\"");
-    text = re.exec(text) + "";
+    var text = null;
+	var title = "1";
+	var t = "2";
+	while(!text) {
+	
+		text = $("#player-api").nextAll("script").nextAll("script").html();
+	
+   		var re = new RegExp("\"title\": \"[^\"]*\"");
+		t = re.exec(text) + "";
+		t = t.replace("\"title\": \"", "");
+    	t = t.replace("\"", "");
+	
+	
+		title = $("title").text().replace(" - YouTube", "");
+		
+		re = new RegExp("\"url_encoded_fmt_stream_map\": \"[^\"]*\"");
+    	text = re.exec(text) + "";
+		if(text == "null" || title != t) {
+			location.reload();
+		}
+	}
+	
+		
     text = text.replace("\"url_encoded_fmt_stream_map\": \"", "");
     text = text.replace("\"", "");
     
@@ -170,7 +191,7 @@ function getURLs() {
 // called when download button is clicked
 function downloadFunction() {
 	if($("#downloadDiv").is(":hidden")) {
-    	var urlArray = getURLs();
+    	//var urlArray = getURLs();
 	
 		$("#download-list").remove();
 

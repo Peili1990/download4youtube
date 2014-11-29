@@ -13,12 +13,29 @@ li{
 <body style="background-color:#f1f1f1">
 <script src="jquery.min.js"></script>
 <script src="popup.js"></script>
-<table width="202" class="tooltip">
+<table width="101" class="tooltip">
 <tr>
-<td><a id="test"></a></td>
+<td width="98"><a id="test"></a></td>
 </tr>
 <tr>
-<td><input type="button" name="button" id="button" value="Button"></td>
+    <td><label>
+      <input type="radio" name="RadioGroup1" value="radio" id="720" checked="true" class="default">
+      HD720</label></td>
+  </tr>
+  <tr>
+    <td><label>
+      <input type="radio" name="RadioGroup1" value="radio" id="480" class="default">
+      Medium</label></td>
+  </tr>
+  <tr>
+    <td><label>
+      <input type="radio" name="RadioGroup1" value="radio" id="320" class="default">
+      Small</label></td>
+  </tr>
+<tr><td><br></td></tr>
+<tr>
+<td>
+<input type="button" name="button" id="button" value="Download All"></td>
 </tr>
 </table>
 </body>

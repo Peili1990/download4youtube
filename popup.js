@@ -1,3 +1,10 @@
+$().ready(function() {
+	chrome.storage.sync.get("resolution", function(data) {
+		console.log(data["resolution"]);
+		$("#" + data["resolution"]).attr("checked", "true");
+	});
+})
+
 var f;
 function click(e) {
 	var f = document.getElementById("test");
@@ -10,7 +17,12 @@ function click(e) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-	var button = document.getElementById("button");
   	
-	button.addEventListener('click', click);
+	$("#button").click(function(e) {
+		click(e);
+	});
+	
+	$(".default").click(function(e) {
+		chrome.storage.sync.set({"resolution":e.target.id});
+	});
 });
