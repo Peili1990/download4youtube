@@ -129,7 +129,7 @@ function buildURL(code) {
             url = equations[i].substring(4) + "&" + url;
         }
         else if(parts[0] == "itag") {
-            if(!itagFlag) {
+            if(!itagFlag && url.indexOf("itag=") < 0) {
                 itagFlag = true;
                 url += (equations[i] + "&");
             }
