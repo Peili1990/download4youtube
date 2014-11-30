@@ -158,7 +158,11 @@ function getURLs() {
 		text = $("#player-api").nextAll("script").nextAll("script").html();
 	
    		var re = new RegExp("\"title\": \"[^\"]*\"");
-		var t = re.exec(text) + "";
+		var t = decode(text.replace("\\\"", "+#"));		
+		
+		t = re.exec(t) + "";
+		t.replace("+#", "\\\"");
+		
 		t = t.replace("\"title\": \"", "");
     	t = t.replace("\"", "");
 		t = decode(t);
@@ -168,7 +172,8 @@ function getURLs() {
 		
 		re = new RegExp("\"url_encoded_fmt_stream_map\": \"[^\"]*\"");
     	text = re.exec(text) + "";
-		if(text == "null" || title != t) {
+		
+		if(text == "null" || (title != t && title.indexOf(t) < 0 && t.indexOf(title) < 0)) {
 			//console.log(title + "-------" + t);
 			location.reload();
 		}
