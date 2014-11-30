@@ -3,6 +3,10 @@ $().ready(function() {
 	chrome.storage.sync.get("resolution", function(data) {
 		//console.log(data["resolution"]);
 		$resolution = data["resolution"];
+		if($resolution=="undefined") {
+
+			chrome.storage.sync.set({"resolution":"hd720"});
+		}
 		$("#" + data["resolution"]).attr("checked", "true");
 	});
 })
@@ -10,11 +14,11 @@ $().ready(function() {
 var f;
 function click(e) {
 	//use API
-	chrome.widget.getYoutubeLinks(function(links) {
-		for(var i = 0; i < links.length; i++){
+	chrome.widget.getYoutubeLinks(function(link) {
+		for(var i = 0; i < link.length; i++){
 			var title = link[i].title;
 			
-			var link = link[i].url;
+			var u = link[i].url;
 	
 			//var title = "apple";
 	
@@ -23,7 +27,7 @@ function click(e) {
 			// Ajax
 			$.ajax({
 				type: "GET",
-				url : link,
+				url : u,
 				
 				success: function(data){
 					content = $(data).find("#player-api").nextAll("script").nextAll("script").html();
@@ -58,14 +62,20 @@ function click(e) {
 						else {
 							//	
 							flag = true;
-							alert("due to copyright, cannot download ");
+							//alert("due to copyright, cannot download ");
 							break;
 						}
 						console.log(info[0] + " " + info[1] + ": " + info[2]);
 					}
 					
 					if(!flag){
-						
+						info = buildURL(decode(urls[0]));
+						var name = info[0].split("\/")[1];
+						if(name.indexOf("-") > -1) {
+							name = name.split("-")[1];
+						}
+						name = "./" + title + "." + name;
+						chrome.downloads.download({url: info[2]+"", filename: name}, function(){});
 					}
 					
 				},
