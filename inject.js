@@ -212,7 +212,7 @@ function downloadFunction() {
 		
 		var infoArray = new Array();
 		if(!urlArray) {
-			$("#download-list").append('<li><button type="button" class="yt-ui-menu-item has-icon yt-uix-menu-close-on-select action-panel-trigger"> <span class="yt-ui-menu-item-icon yt-uix-button-icon-action-panel-report yt-sprite"></span><span class="yt-ui-menu-item-label">Due to copyright<br>Download unavailable</span></button> </li>')
+			$("#download-list").append('<li><button type="button" class="yt-ui-menu-item has-icon yt-uix-menu-close-on-select action-panel-trigger"> <span class="yt-ui-menu-item-icon yt-uix-button-icon-action-panel-report yt-sprite"></span><span class="yt-ui-menu-item-label">Due to copyright<br>Download unavailable</span></button></li>')
 		}
 		else {
 		for(var i = 0; i < urlArray.length; i++) {
