@@ -43,7 +43,6 @@ function click(e) {
 					for(var i = 0; i < urls.length; i ++) {
 						var info = buildURL(decode(urls[i]));
 						if(info[2].indexOf("signature") > -1) {
-						$("#test").html($resolution+"----"+ info[0]);
 							if(info[1]== $resolution){
 								
 								flag = true;
