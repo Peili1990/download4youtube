@@ -155,26 +155,27 @@ function getURLs() {
     var text = null;
 	while(!text) {
 	
-		text = $("#player-api").nextAll("script").nextAll("script").html();
-	
-   		var re = new RegExp("\"title\": \"[^\"]*\"");
-		var t = decode(text.replace("\\\"", "+#"));		
+		text = $("#player-api").next("script").next("script").html();
+   		var re = new RegExp("\"title\":\"[^\"]*\"");
 		
+		var t = text.replace(/\\\"/g, "+#");	
 		t = re.exec(t) + "";
-		t.replace("+#", "\\\"");
 		
-		t = t.replace("\"title\": \"", "");
+		t = t.replace("\"title\":\"", "");
     	t = t.replace("\"", "");
-		t = decode(t);
-	
+		t = t.replace(/\+#/g, "\"");
+		t = t.trim();
 	
 		var title = $("title").text().replace(" - YouTube", "");
+		title = title.trim();
 		
-		re = new RegExp("\"url_encoded_fmt_stream_map\": \"[^\"]*\"");
+		re = new RegExp("\"url_encoded_fmt_stream_map\":\"[^\"]*\"");
     	text = re.exec(text) + "";
 		
+		
 		if(text == "null" || (title != t && title.indexOf(t) < 0 && t.indexOf(title) < 0)) {
-			//console.log(title + "-------" + t);
+			console.log(title + "-------" + t);
+			console.log(title.trim() == t.trim());
 			location.reload();
 		}
 	}
